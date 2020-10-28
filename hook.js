@@ -50,28 +50,28 @@ function Hooks()
 
 				try
 				{
-					var str='_context[_funcName] = function '+_funcName+'(){\n'+
-					'var args = Array.prototype.slice.call(arguments,0);\n'+
-					'var obj = this;\n';
+					var str='_context[_funcName] = function '+_funcName+'(){'+
+					'var args = Array.prototype.slice.call(arguments,0);'+
+					'var obj = this;';
 					if(_flagsCall)
 					{
-						str += 'hookFunc.apply(obj,args)\n'+
-						'return _context[realFunc].apply(obj,args);\n';
+						str += 'hookFunc.apply(obj,args);'+
+						'return _context[realFunc].apply(obj,args);';
 					}
 					else
 					{
-						str += 'return hookFunc.apply(obj,args)\n';
+						str += 'return hookFunc.apply(obj,args);';
 					}
-					str +='};';
+					str +='}';
 					eval(str);
 					_context[_funcName].prototype.isHooked = true;
 					return true;
 				}catch (e)
 				{
-					console.log("Hook failed,check the params.");
+					console.log("Hook failed,check the params. : " + e.message);
 					return false;
 				}
-			}
+			},
 			Function.prototype.unhook = function (realFunc,funcName,context) {
 				var _context = null;
 				var _funcName = null;
